@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+</head>
+<body>
+    
+    <input type="file" id="archivo" onchange="readFile()" />
+    <textarea name="contenido" id="contenido" cols="30" rows="20"></textarea>
+    <img src="" alt="Foto" id="imagen">
+
+    <script type="text/javascript">
+        function readFile() {
+             var elementFile = document.getElementById('archivo');
+             
+             if(elementFile.files.length != 0 && elementFile.files[0].type.match(/text.*/))
+             {
+                    var reader = new FileReader();
+                    reader.onload = function(file){
+                        
+                        var elementContenido = document.getElementById('contenido');
+                        elementContenido.value = file.target.result;
+                    };
+
+                    reader.onerror = function(error){
+                            alert('No se pudo cargar el archivo de texto');
+                    };
+                    reader.readAsText(elementFile.files[0],"ISO-8859-1");
+             }
+             else if(elementFile.files.length !=0 && elementFile.files[0].type.match(/image.*/))
+             {
+                 var reader = new FileReader();
+
+                 reader.onload = function (file)
+                 {
+                    var elementoImagen = document.getElementById('imagen'); 
+                    elementoImagen.setAttribute('src',file.target.result);
+                 };
+
+                 reader.onerror= function(error)
+                 {
+                    alert('No se pudo cargar la imagen!');
+                 };
+
+                 reader.readAsDataURL(elementFile.files[0]);
+
+                 console.log(elementFile.files[0]);
+             }
+             else
+             {
+                 alert('Seleccione un Archivo!');
+             }
+        }
+    </script>
+
+</body>
+</html>
